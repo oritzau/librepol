@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+        .card p {
+            margin: 8px 0;
+        }
+        .card a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Propositions</h1>
+    
+    {% for entry in posts %}
+    <div class="card">
+        <h2>{{ entry.title.title }}</h2>
+        <p><strong>Content:</strong> {{ entry.content }}</p>
+        
+        {% if entry.image != "N/A" %}
+            <p><strong>Image:</strong> <img src="{{ entry.image }}" alt="Image for {{ entry.title }}" width="100"></p>
+        {% endif %}
+        
+        <p><a href="{{ entry.link }}" target="_blank">More Information</a></p>
+    </div>
+    {% endfor %}
+</body>
+</html>

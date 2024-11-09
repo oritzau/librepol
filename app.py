@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+import requests
 import os, re
 import db
 from models import Post
@@ -25,7 +26,13 @@ def allowedFile(filename):
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    base_url = request.host_url
+
+    posts_url = f'{base_url}posts'
+    response = requests.get(posts_url)
+    posts = response.json()
+
+    return render_template("display.html", posts=posts)
 
 @app.route("/create", methods=["POST"])
 def createPost():
@@ -56,13 +63,13 @@ def createPost():
     )
     db.insert(post)
 
-    return redirect("/request")
+    return redirect("/")
 
 @app.route("/create", methods=["GET"])
 def createForm():
     return render_template("create_post.html")
 
-@app.route("/request", methods=["GET"])
+@app.route("/posts", methods=["GET"])
 def getRequest():
     posts = [post.serialize() for post in db.view()]
     return jsonify({
@@ -71,7 +78,7 @@ def getRequest():
         "numposts": len(posts),
     })
 
-@app.route('/request/<int:id>', methods=['DELETE'])
+@app.route('/posts/<int:id>', methods=['DELETE'])
 def deleteRequest(id):
     args = request.view_args
     if not args:
