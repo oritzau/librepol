@@ -35,9 +35,9 @@
 <body>
     <h1>Propositions</h1>
     
-    {% for entry in posts %}
+    {% for entry in posts.res %}
     <div class="card">
-        <h2>{{ entry.title.title }}</h2>
+        <h2>{{ entry.title }}</h2>
         <p><strong>Content:</strong> {{ entry.content }}</p>
         
         {% if entry.image != "N/A" %}
