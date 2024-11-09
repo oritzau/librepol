@@ -40,10 +40,13 @@
         <h2>{{ entry.title }}</h2>
         <p><strong>Content:</strong> {{ entry.content }}</p>
         
-        {% if entry.image != "N/A" %}
-            <p><strong>Image:</strong> <img src="{{ entry.image }}" alt="Image for {{ entry.title }}" width="100"></p>
+        {% if entry.image != "" %}
+            <p><strong>Image:</strong> 
+            <img src="{{ url_for('static', filename=entry.image) }}" 
+                    alt="Image for {{ entry.title }}" width="100">
+            </p>
         {% endif %}
-        
+                
         <p><a href="{{ entry.link }}" target="_blank">More Information</a></p>
     </div>
     {% endfor %}

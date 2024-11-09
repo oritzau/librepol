@@ -4,7 +4,7 @@ import os, re
 import db
 from models import Post
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='uploads')
 
 if not os.path.isfile(db.DB_NAME):
     db.connect()
