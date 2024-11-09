@@ -1,7 +1,7 @@
 Basic Concept:
     Craiglist, but for politics
 
-    Users can post images, links to policies, and summaries of events
+    Users can post images, links to policies (if existing), and summaries of events
     No algorithm
     User-moderated?
     Needs support for posting, removing, and maybe a voting system
