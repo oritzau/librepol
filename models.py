@@ -1,12 +1,14 @@
 import random
+import datetime
 
 class Post:
-    def __init__(self, id, title, image, content, link):
+    def __init__(self, id: int, title: str, image: str, content: str, link: str):
         self.id = id
         self.title = title
         self.image = image
         self.content = content
         self.link = link
+        self.timestamp = str(datetime.datetime.now())
 
     def __repr__(self):
         return f"Post {self.id}"
@@ -18,6 +20,7 @@ class Post:
             "image" : self.image,
             "content" : self.content,
             "link" : self.link,
+            "timestamp" : self.timestamp,
         }
     
     def from_dict(data: dict):

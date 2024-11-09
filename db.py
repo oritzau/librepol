@@ -8,7 +8,7 @@ DB_NAME = "posts.db"
 def connect():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, title TEXT, image TEXT, content TEXT, link TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, title TEXT, image TEXT, content TEXT, link TEXT, timestamp TEXT)")
     conn.commit()
     conn.close()
     for p in posts:
@@ -18,12 +18,13 @@ def connect():
 def insert(post: Post):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO posts (id, title, image, content, link) VALUES (?,?,?,?,?)", (
+    cursor.execute("INSERT INTO posts (id, title, image, content, link, timestamp) VALUES (?,?,?,?,?,?)", (
         post.id,
         post.title,
         post.image,
         post.content,
         post.link,
+        post.timestamp,
     ))
     conn.commit()
     conn.close()
