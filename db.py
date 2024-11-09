@@ -83,7 +83,7 @@ posts = [
         'title': "Inconvinient School Hours",
         'image': "fish.jpg",
         'content': "Local middleschool ends at 3pm and there are no resources for afterschool care. I get out of work at 5pm and can't pick up my kid. Our schools need to accomodate parents who work beyond 3pm",
-        'link': "N/A"
+        'link': ""
     },
     {
         'id': 204221,
@@ -97,6 +97,6 @@ posts = [
         'title': "Lack of walkability",
         'image': "street.jpg",
         'content': "There is no safe way for people without cars to get from Skidmore to walmart. The bus drops us off on the side of a busy road, which we have to cross despite the lack of sidewalks and crosswalks. I've almost been hit multiple times. We need a safer way to get there.",
-        'link': "N/A"
+        'link': ""
     },
 ]

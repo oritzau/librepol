@@ -37,6 +37,7 @@
     
     {% for entry in posts.res %}
     <div class="card">
+        <p><small>ID number: {{ entry.id }}</small></p>
         <h2>{{ entry.title }}</h2>
         <p><strong>Content:</strong> {{ entry.content }}</p>
         
@@ -46,8 +47,10 @@
                     alt="Image for {{ entry.title }}" width="100">
             </p>
         {% endif %}
-                
-        <p><a href="{{ entry.link }}" target="_blank">More Information</a></p>
+
+        {% if entry.link != "" %}        
+        <p>To learn more, visit:<a href="{{ entry.link }}" target="_blank"> {{ entry.link }}</a></p>
+        {% endif %}
     </div>
     {% endfor %}
 </body>
