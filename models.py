@@ -3,13 +3,13 @@ import datetime
 # from werkzeug.security import generate_password_hash, check_password_hash
 
 class Post:
-    def __init__(self, id: int, title: str, image: str, content: str, link: str):
+    def __init__(self, id: int, title: str, image: str, content: str, link: str, timestamp):
         self.id = id
         self.title = title
         self.image = image
         self.content = content
         self.link = link
-        self.timestamp = str(datetime.datetime.now())
+        self.timestamp=timestamp
 
     def __repr__(self):
         return f"<Post {self.id}>"

@@ -26,7 +26,7 @@ def insert(post: Post):
         post.image,
         post.content,
         post.link,
-        post.timestamp,
+        str(datetime.datetime.now()),
     ))
     conn.commit()
     conn.close()
@@ -57,7 +57,7 @@ def view() -> [Post]:
     rows = cursor.fetchall()
     posts = []
     for row in rows:
-        post = Post(row[0], row[1], row[2], row[3], row[4])
+        post = Post(row[0], row[1], row[2], row[3], row[4], row[5])
         posts.append(post)
     conn.close()
     return posts
@@ -85,39 +85,39 @@ def deleteAll():
 
 
 posts = [
-    {
-        'id': 204901,
-        'title': "Overflowing Sewers",
-        'image': "cat.jpg",
-        'content': "The sewer system is overflowing and flooding the surrounding streets in this area with dirty water. We need better systems.",
-        'link': "https://en.wikipedia.org/wiki/Sewerage"
-    },
-    {
-        'id': 204905,
-        'title': "Unsafe playgrounds",
-        'image': "creepy.jpg",
-        'content': "Our local playground is covered in rust",
-        'link': "https://en.wikipedia.org/wiki/Rust"
-    },
-    {
-        'id': 204603,
-        'title': "Inconvinient School Hours",
-        'image': "fish.jpg",
-        'content': "Local middleschool ends at 3pm and there are no resources for afterschool care. I get out of work at 5pm and can't pick up my kid. Our schools need to accomodate parents who work beyond 3pm",
-        'link': ""
-    },
-    {
-        'id': 204221,
-        'title': "Prop 4",
-        'image': "shape.png",
-        'content': "Allocating more funds to climate concerns could help immesurably with our wildfire problem! My house burned down in the most recent fires, we need to take action to prevent this from continuing",
-        'link': "https://voterguide.sos.ca.gov/propositions/4/"
-    },
-    {
-        'id': 204444,
-        'title': "Lack of walkability",
-        'image': "street.jpg",
-        'content': "There is no safe way for people without cars to get from Skidmore to walmart. The bus drops us off on the side of a busy road, which we have to cross despite the lack of sidewalks and crosswalks. I've almost been hit multiple times. We need a safer way to get there.",
-        'link': ""
-    },
+#     {
+#         'id': 204901,
+#         'title': "Overflowing Sewers",
+#         'image': "cat.jpg",
+#         'content': "The sewer system is overflowing and flooding the surrounding streets in this area with dirty water. We need better systems.",
+#         'link': "https://en.wikipedia.org/wiki/Sewerage"
+#     },
+#     {
+#         'id': 204905,
+#         'title': "Unsafe playgrounds",
+#         'image': "creepy.jpg",
+#         'content': "Our local playground is covered in rust",
+#         'link': "https://en.wikipedia.org/wiki/Rust"
+#     },
+#     {
+#         'id': 204603,
+#         'title': "Inconvinient School Hours",
+#         'image': "fish.jpg",
+#         'content': "Local middleschool ends at 3pm and there are no resources for afterschool care. I get out of work at 5pm and can't pick up my kid. Our schools need to accomodate parents who work beyond 3pm",
+#         'link': ""
+#     },
+#     {
+#         'id': 204221,
+#         'title': "Prop 4",
+#         'image': "shape.png",
+#         'content': "Allocating more funds to climate concerns could help immesurably with our wildfire problem! My house burned down in the most recent fires, we need to take action to prevent this from continuing",
+#         'link': "https://voterguide.sos.ca.gov/propositions/4/"
+#     },
+#     {
+#         'id': 204444,
+#         'title': "Lack of walkability",
+#         'image': "street.jpg",
+#         'content': "There is no safe way for people without cars to get from Skidmore to walmart. The bus drops us off on the side of a busy road, which we have to cross despite the lack of sidewalks and crosswalks. I've almost been hit multiple times. We need a safer way to get there.",
+#         'link': ""
+#     },
 ]

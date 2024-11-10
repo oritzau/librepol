@@ -33,11 +33,11 @@ def index():
 
     posts_url = f'{base_url}posts'
     response = requests.get(posts_url)
-    posts = response.json()
+    posts = response.json().get("res")
 
-    sorted_posts = sorted(posts, key=lambda x: datetime.strptime(x['timestamp'], "%Y-%m-%d %H:%M:%S.%f").timestamp())
+    sorted_posts = sorted(posts, key=lambda x: datetime.strptime(x['timestamp'], "%Y-%m-%d %H:%M:%S.%f").timestamp(), reverse=True)
 
-    return render_template("display.html", posts=posts)
+    return render_template("display.html", posts=sorted_posts)
 
 @app.route("/login", methods=["POST"])
 def loginPost():
@@ -141,10 +141,10 @@ def search():
     # Filter posts based on the query (searching in title and content)
     filtered_posts = [entry for entry in posts if query in entry['title'].lower() or query in entry['content'].lower()]
 
-    sorted_posts = sorted(filtered_posts, key=lambda x: x['timestamp'])
+    sorted_posts = sorted(posts, key=lambda x: datetime.strptime(x['timestamp'], "%Y-%m-%d %H:%M:%S.%f").timestamp(), reverse=True)
 
     # Render the index template with the sorted posts
-    return render_template('display.html', posts={'res': sorted_posts})
+    return render_template('display.html', posts=sorted_posts)
 
 if __name__ == "__main__":
     app.run()
