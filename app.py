@@ -4,7 +4,7 @@ import os, re
 import db
 from models import Post
 from datetime import datetime
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='uploads')
 
