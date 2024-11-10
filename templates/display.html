@@ -9,16 +9,32 @@
             font-family: Arial, sans-serif;
         }
         .card {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 16px;
             transition: 0.3s;
             margin: 16px;
-            max-width: 600px;
+            max-width: 1000px;
+            min-width: 500px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
-        card:hover {
+        /* .card:hover {
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        } */
+        .card img {
+            max-width: 200px; /* Limits width to 200px */
+            max-height: 200px; /* Ensures vertical images don’t become too tall */
+            width: auto; /* Maintains aspect ratio for horizontal images */
+            height: auto; /* Maintains aspect ratio for vertical images */
+            object-fit: cover; /* Ensures images fill the box while retaining proportions */
+            border-radius: 8px;
+        }
+        .card-content {
+            flex: 1;
+            margin-right: 16px;
         }
         .card h2 {
             margin-top: 0;
@@ -37,40 +53,102 @@
         .card-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
+            gap: 15px;
+            justify-content: left;
+        }
+         /* Position logout button */
+        .logout-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+         /* Position delete button */
+         .delete-container {
+            position: absolute;
+            top: 20px;
+            right: 85px;
+        }
+
+         /* Position delete button */
+         .new-container {
+            position: absolute;
+            top: 20px;
+            right: 148px;
         }
 
     </style>
 </head>
 <body>
+    <!-- Logout button in the top-right corner -->
+    <div class="logout-container">
+        <form action="{{ url_for('logout') }}" method="POST">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
+
+    <div class="delete-container">
+        <form action="{{ url_for('delete') }}" method="GET">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+
+    <div class="new-container">
+        <form action="{{ url_for('createForm') }}" method="GET">
+            <button type="submit" class="btn btn-danger">Create New Post</button>
+        </form>
+    </div>
+   
     <h1>Propositions</h1>
     
-    <form method="GET" action="{{ url_for('search') }}" class="form-inline justify-content-center mb-4">
+    <!-- <form method="GET" action="{{ url_for('search') }}" class="form-inline justify-content-center mb-4">
         <input type="text" name="query" placeholder="Search..." class="form-control mr-2">
         <button type="submit" class="btn btn-primary">Search</button>
         <div class="mt-auto text-right">
             <a href="{{ url_for('createForm') }}" class="btn btn-primary">Create New Post</a>
         </div>
-    </form>
+    </form> -->
 
+    <div class="card-container">
+        {% for entry in posts %}
+        <div class="card">
+            <div class="card-content">
+                <p><small>ID number: {{ entry.id }}</small></p>
+                <h2>{{ entry.title }}</h2>
+                <p><strong>Content:</strong> {{ entry.content }}</p>
+                
+                {% if entry.link != "" %}        
+                    <p>To learn more, visit:<a href="{{ entry.link }}" target="_blank"> {{ entry.link }}</a></p>
+                {% endif %}
+            </div>
 
-    {% for entry in posts %}
-    <div class="card">
-        <p><small>ID number: {{ entry.id }}</small></p>
-        <h2>{{ entry.title }}</h2>
-        <p><strong>Content:</strong> {{ entry.content }}</p>
-        
-        {% if entry.image != "" %}
-            <img src="{{ url_for('static', filename=entry.image) }}" 
-                    alt="Image for {{ entry.title }}" width="100">
-            </p>
-        {% endif %}
-
-        {% if entry.link != "" %}        
-            <p>To learn more, visit:<a href="{{ entry.link }}" target="_blank"> {{ entry.link }}</a></p>
-        {% endif %}
+            {% if entry.image != "" %}
+                <img src="{{ url_for('static', filename=entry.image) }}" 
+                     alt="Image for {{ entry.title }}">
+            {% endif %}
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </body>
 </html>
+    <!-- <div class="card-container"></div>
+        {% for entry in posts %}
+        <div class="card">
+            <p><small>ID number: {{ entry.id }}</small></p>
+            <h2>{{ entry.title }}</h2>
+            <p><strong>Content:</strong> {{ entry.content }}</p>
+            
+            {% if entry.image != "" %}
+                <img src="{{ url_for('static', filename=entry.image) }}" 
+                        alt="Image for {{ entry.title }}" width="100">
+                </p>
+            {% endif %}
+
+            {% if entry.link != "" %}        
+                <p>To learn more, visit:<a href="{{ entry.link }}" target="_blank"> {{ entry.link }}</a></p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html> -->
