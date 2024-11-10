@@ -81,9 +81,15 @@
 <body>
     <!-- Logout button in the top-right corner -->
     <div class="logout-container">
+        {% if session.get('role') == 'moderator' %}
         <form action="{{ url_for('logout') }}" method="POST">
-            <button type="submit" class="btn btn-danger">Logout</button>
+                <button type="submit" class="btn btn-danger">Logout</button>
         </form>
+        {% else %}
+        <form action="{{ url_for('login') }}" method="GET">
+                <button type="submit" class="btn btn-danger">Login</button>
+        </form>
+        {% endif %}
     </div>
 
     <div class="delete-container">
