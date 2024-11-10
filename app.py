@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 import requests
 import os, re
 import db
 from models import Post
+from datetime import datetime
 
 app = Flask(__name__, static_folder='uploads')
 
@@ -18,6 +19,8 @@ app.config["ALLOWED_EXTENSIONS"] = {
     "gif",
 }
 
+app.secret_key = "very very secret"
+
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
@@ -32,7 +35,24 @@ def index():
     response = requests.get(posts_url)
     posts = response.json()
 
+    sorted_posts = sorted(posts, key=lambda x: datetime.strptime(x['timestamp'], "%Y-%m-%d %H:%M:%S.%f").timestamp())
+
     return render_template("display.html", posts=posts)
+
+@app.route("/login", methods=["POST"])
+def loginPost():
+    username = request.form.get("username")
+    password = request.form.get("password")
+    user = db.get_moderator_by_username(username)
+
+    if user and user.password == password:
+        session['role'] = "moderator"
+        return redirect(url_for('index'))
+    return "Invalid credentials", 401
+
+@app.route("/login", methods=["GET"])
+def login():
+    return render_template("login.html")
 
 @app.route("/create", methods=["POST"])
 def createPost():
@@ -78,8 +98,14 @@ def getRequest():
         "numposts": len(posts),
     })
 
-@app.route('/posts/<int:id>', methods=['DELETE'])
-def deleteRequest(id):
+@app.route('/delete/', methods=['GET'])
+def delete():
+    return render_template("delete_post.html")
+
+@app.route('/delete/<int:id>', methods=['POST'])
+def deletePost(id):
+    if session.get('role') != "moderator":
+        return redirect(url_for("login"))
     args = request.view_args
     if not args:
         return jsonify({
@@ -90,16 +116,35 @@ def deleteRequest(id):
     for post in posts:
         if post['id'] == int(args['id']):
             db.delete(post['id'])
-            posts = [post.serialize() for post in db.view()]
-            return jsonify({
-                'res': posts,
-                'status': '200',
-                'numposts': len(posts)
-            })
+            # posts = [post.serialize() for post in db.view()]
+            # return jsonify({
+            #     'res': posts,
+            #     'status': '200',
+            #     'numposts': len(posts)
+            # })
+            return redirect(url_for("index"))
     return jsonify({
         'res': '',
         'status': '404'
     })   
+
+@app.route('/search', methods=['GET'])
+def search():
+    base_url = request.host_url
+    posts_url = f'{base_url}posts'
+    response = requests.get(posts_url)
+    posts = response.json()["res"]  # Extract posts from the JSON response
+
+    # Get the search query from the form
+    query = request.args.get('query', '').lower()
+
+    # Filter posts based on the query (searching in title and content)
+    filtered_posts = [entry for entry in posts if query in entry['title'].lower() or query in entry['content'].lower()]
+
+    sorted_posts = sorted(filtered_posts, key=lambda x: x['timestamp'])
+
+    # Render the index template with the sorted posts
+    return render_template('display.html', posts={'res': sorted_posts})
 
 if __name__ == "__main__":
     app.run()

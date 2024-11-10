@@ -1,19 +1,21 @@
 import sqlite3
 import datetime
-from models import Post
+from models import Post, Moderator
 
-DB_NAME = "posts.db"
+DB_NAME = "librepol.db"
 
 
 def connect():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, title TEXT, image TEXT, content TEXT, link TEXT, timestamp TEXT)")
+    cursor.execute( "CREATE TABLE IF NOT EXISTS moderators (username TEXT UNIQUE NOT NULL, password TEXT NOT NULL)")
     conn.commit()
     conn.close()
     for p in posts:
         post = Post.from_dict(p)
         insert(post)
+    insert_moderator(Moderator(username="test", password="blaspheme"))
 
 def insert(post: Post):
     conn = sqlite3.connect(DB_NAME)
@@ -28,6 +30,25 @@ def insert(post: Post):
     ))
     conn.commit()
     conn.close()
+
+def insert_moderator(mod: Moderator):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO moderators (username, password) VALUES (?, ?)", (
+        mod.username,
+        mod.password,
+    ))
+    conn.commit()
+    conn.close()
+
+def get_moderator_by_username(username: str):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM moderators WHERE username=?", (username,))
+    row = cursor.fetchone()
+    if row:
+        return Moderator(username=row[0], password=row[1])
+    return None
 
 def view() -> [Post]:
     conn = sqlite3.connect(DB_NAME)

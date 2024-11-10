@@ -1,0 +1,25 @@
+<!-- templates/delete_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Post</title>
+    <script>
+        // This function will dynamically update the form action based on the entered post ID
+        function updateActionUrl() {
+            var postId = document.getElementById('post_id').value;
+            var form = document.getElementById('deleteForm');
+            form.action = '/delete/' + postId; // Set the action to /delete/post_id
+        }
+    </script>
+</head>
+<body>
+    <h2>Delete Post</h2>
+    <form id="deleteForm" method="POST" onsubmit="updateActionUrl();">
+        <label for="post_id">Enter Post ID to delete:</label>
+        <input type="text" id="post_id" name="post_id" required>
+        <button type="submit">Delete Post</button>
+    </form>
+</body>
+</html>

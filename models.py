@@ -1,5 +1,6 @@
 import random
 import datetime
+# from werkzeug.security import generate_password_hash, check_password_hash
 
 class Post:
     def __init__(self, id: int, title: str, image: str, content: str, link: str):
@@ -11,7 +12,7 @@ class Post:
         self.timestamp = str(datetime.datetime.now())
 
     def __repr__(self):
-        return f"Post {self.id}"
+        return f"<Post {self.id}>"
 
     def serialize(self):
         return {
@@ -35,3 +36,22 @@ class Post:
 
     def createPostId():
         return random.getrandbits(32)
+
+class Moderator:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
+    def __repr__(self):
+        return f"<User: {self.username}>"
+
+    def from_dict(data):
+        return Moderator(
+                username=data['username'],
+                password=data['password'],
+            )
+
+    def serialize(self):
+        return {
+            'username': self.username,
+        }
