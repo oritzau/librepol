@@ -36,7 +36,7 @@ def insert_moderator(mod: Moderator):
     cursor = conn.cursor()
     cursor.execute("INSERT INTO moderators (username, password) VALUES (?, ?)", (
         mod.username,
-        mod.password,
+        mod.password_hash,
     ))
     conn.commit()
     conn.close()
@@ -47,7 +47,9 @@ def get_moderator_by_username(username: str):
     cursor.execute("SELECT * FROM moderators WHERE username=?", (username,))
     row = cursor.fetchone()
     if row:
-        return Moderator(username=row[0], password=row[1])
+        mod = Moderator(username=row[0], password=row[1])
+        mod.password_hash = mod.password
+        return mod
     return None
 
 def view() -> [Post]:

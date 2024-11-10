@@ -1,6 +1,6 @@
 import random
 import datetime
-# from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Post:
     def __init__(self, id: int, title: str, image: str, content: str, link: str, timestamp):
@@ -41,6 +41,7 @@ class Moderator:
     def __init__(self, username, password):
         self.username = username
         self.password = password
+        self.password_hash = generate_password_hash(password)
 
     def __repr__(self):
         return f"<User: {self.username}>"
@@ -55,3 +56,6 @@ class Moderator:
         return {
             'username': self.username,
         }
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)

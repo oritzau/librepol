@@ -4,6 +4,7 @@ import os, re
 import db
 from models import Post
 from datetime import datetime
+from werkzeug import secure_filename
 
 app = Flask(__name__, static_folder='uploads')
 
@@ -45,7 +46,7 @@ def loginPost():
     password = request.form.get("password")
     user = db.get_moderator_by_username(username)
 
-    if user and user.password == password:
+    if user and user.check_password(password):
         session['role'] = "moderator"
         return redirect(url_for('index'))
     return "Invalid credentials", 401
@@ -74,16 +75,17 @@ def createPost():
     if file.filename == "":
         # return jsonify({"status": "400", "message": "No selected file"}), 400
         post = Post(
-        id=Post.createPostId(), 
-        title=title,
-        image='',
-        content=content,
-        link=link,
-        timestamp="",
+            id=Post.createPostId(), 
+            title=title,
+            image='',
+            content=content,
+            link=link,
+            timestamp="",
         )
 
     elif file and allowedFile(file.filename):
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
     else:
@@ -131,12 +133,6 @@ def deletePost(id):
     for post in posts:
         if post['id'] == int(args['id']):
             db.delete(post['id'])
-            # posts = [post.serialize() for post in db.view()]
-            # return jsonify({
-            #     'res': posts,
-            #     'status': '200',
-            #     'numposts': len(posts)
-            # })
             return redirect(url_for("index"))
     return "Post not found", 404
 

@@ -1,7 +1,5 @@
-Basic Concept:
-    Craiglist, but for politics
-
-    Users can post images, links to policies (if existing), and summaries of events
-    No algorithm
-    User-moderated?
-    Needs support for posting, removing, and maybe a voting system
+Security (store password hashes), get rid of filename vulnerability
+Image optionality
+Only one of login/logout button
+Replies
+More static sizes, less flex margins
