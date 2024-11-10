@@ -54,6 +54,12 @@ def loginPost():
 def login():
     return render_template("login.html")
 
+@app.route("/logout", methods=["POST"])
+def logout():
+    if session.get("role") == "moderator":
+        session.pop("role", None)
+    return redirect(url_for("index"))
+
 @app.route("/create", methods=["POST"])
 def createPost():
     title = request.form.get("title")
@@ -101,6 +107,8 @@ def getRequest():
 
 @app.route('/delete/', methods=['GET'])
 def delete():
+    if session.get('role') != "moderator":
+        return redirect(url_for("login"))
     return render_template("delete_post.html")
 
 @app.route('/delete/<int:id>', methods=['POST'])
@@ -109,10 +117,7 @@ def deletePost(id):
         return redirect(url_for("login"))
     args = request.view_args
     if not args:
-        return jsonify({
-            'res': '',
-            'status': '404'
-        })   
+        return "Args not found", 404
     posts = [post.serialize() for post in db.view()]
     for post in posts:
         if post['id'] == int(args['id']):
@@ -124,10 +129,7 @@ def deletePost(id):
             #     'numposts': len(posts)
             # })
             return redirect(url_for("index"))
-    return jsonify({
-        'res': '',
-        'status': '404'
-    })   
+    return "Post not found", 404
 
 @app.route('/search', methods=['GET'])
 def search():

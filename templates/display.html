@@ -40,10 +40,24 @@
             gap: 20px;
             justify-content: center;
         }
+        
+        /* Position logout button */
+        .logout-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
 
     </style>
 </head>
 <body>
+    <!-- Logout button in the top-right corner -->
+    <div class="logout-container">
+        <form action="{{ url_for('logout') }}" method="POST">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
+
     <h1>Propositions</h1>
     
     <form method="GET" action="{{ url_for('search') }}" class="form-inline justify-content-center mb-4">
@@ -54,7 +68,6 @@
         </div>
     </form>
 
-
     {% for entry in posts %}
     <div class="card">
         <p><small>ID number: {{ entry.id }}</small></p>
@@ -63,14 +76,14 @@
         
         {% if entry.image != "" %}
             <img src="{{ url_for('static', filename=entry.image) }}" 
-                    alt="Image for {{ entry.title }}" width="100">
-            </p>
+                 alt="Image for {{ entry.title }}" width="100">
         {% endif %}
 
         {% if entry.link != "" %}        
-            <p>To learn more, visit:<a href="{{ entry.link }}" target="_blank"> {{ entry.link }}</a></p>
+            <p>To learn more, visit: <a href="{{ entry.link }}" target="_blank"> {{ entry.link }}</a></p>
         {% endif %}
     </div>
     {% endfor %}
 </body>
 </html>
+
