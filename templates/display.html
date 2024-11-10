@@ -51,9 +51,10 @@
         .card-container {
             display: flex;
             flex-direction: column; /* Stack cards vertically */
-            align-items: flex-start; /* Align cards to the left */
+            align-items: flex-start; 
             gap: 15px;
             width: 100%; /* Full width of the page */
+            margin-top: 150px;
         }
          /* Position logout button */
         .logout-container {
@@ -76,14 +77,74 @@
             right: 148px;
         }
 
+        .home-container {
+            display: flex;
+            gap: 10px; /
+        }
+
+        .bigbtn {
+            font-size: 1.5em; /* Makes the button larger */
+            padding: 10px 20px;
+            background-color: #104fb5; /* Bootstrap "btn-danger" color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .bigbtn:hover {
+            background-color: #104fb5; /* Darker shade on hover */
+        }
+
+        .top-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            gap: 10px; /* Space between each element */
+        }
+        .form-inline {
+            display: flex;
+            align-items: center;
+        }
+
     </style>
 </head>
 <body>
+    
+    <!-- <div class="home-container">
+        <form action="{{ url_for('index') }}" method="GET">
+            <button type="submit" class="bigbtn">Untitled</button>
+        </form>
+        <form action="{{ url_for('about_page') }}" method="GET">
+            <button type="submit" class="btn btn-danger .btn-lg">About</button>
+        </form>
+    </div> -->
+
+    <div class="top-container">
+        <div class="home-container">
+            <form action="{{ url_for('index') }}" method="GET">
+                <button type="submit" class="bigbtn">Home</button>
+            </form>
+            <form action="{{ url_for('about_page') }}" method="GET">
+                <button type="submit" class="btn btn-danger .btn-lg">About</button>
+            </form>
+        </div>
+
+        <form method="GET" action="{{ url_for('search') }}" class="form-inline justify-content-center mb-4">
+            <input type="text" name="query" placeholder="Search..." class="form-control mr-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    
+    
     <!-- Logout button in the top-right corner -->
     <div class="logout-container">
         {% if session.get('role') == 'moderator' %}
         <form action="{{ url_for('logout') }}" method="POST">
-                <button type="submit" class="btn btn-danger">Logout</button>
+                <button type="submit" class="btn btn-primary">Logout</button>
         </form>
         {% else %}
         <form action="{{ url_for('login') }}" method="GET">
@@ -98,18 +159,20 @@
         </form>
     </div>
 
+    
+
     <div class="new-container">
         <form action="{{ url_for('createForm') }}" method="GET">
             <button type="submit" class="btn btn-danger">Create New Post</button>
         </form>
     </div>
-   
-    <h1>Untitled</h1>
+    
+<!--    
 
     <form method="GET" action="{{ url_for('search') }}" class="form-inline justify-content-center mb-4">
         <input type="text" name="query" placeholder="Search..." class="form-control mr-2">
         <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+    </form> -->
 
 
     <div class="card-container">

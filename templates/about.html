@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* font-family:Georgia, serif; */
+        }
+ 
+         .home-container {
+            position: absolute;
+            top: 20px;
+            left: 20px; /* Move the button to the left */
+        }
+
+        .btn {
+            font-size: 1.5em; /* Makes the button larger */
+            padding: 10px 20px;
+            background-color: #104fb5; /* Bootstrap "btn-danger" color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #104fb5; /* Darker shade on hover */
+        }
+
+        p {
+            margin-top: 80px; /* Adjust this value to your liking */
+        }
+
+      
+    </style>
+</head>
+
+
+    <div class="home-container">
+        <form action="{{ url_for('index') }}" method="GET">
+            <button type="submit" class="btn">Home</button>
+        </form>
+    </div>
+
+    <p> OUR ABOUT PAGE</p>
+
+    
+ </body>
+</html> 

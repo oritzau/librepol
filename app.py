@@ -136,6 +136,13 @@ def deletePost(id):
             return redirect(url_for("index"))
     return "Post not found", 404
 
+@app.route('/about')
+def about_page():
+    base_url = request.host_url
+    print('here')
+    return render_template("about.html")
+
+
 @app.route('/search', methods=['GET'])
 def search():
     base_url = request.host_url
