@@ -149,7 +149,7 @@ def search():
     # Filter posts based on the query (searching in title and content)
     filtered_posts = [entry for entry in posts if query in entry['title'].lower() or query in entry['content'].lower()]
 
-    sorted_posts = sorted(posts, key=lambda x: datetime.strptime(x['timestamp'], "%Y-%m-%d %H:%M:%S.%f").timestamp(), reverse=True)
+    sorted_posts = sorted(filtered_posts, key=lambda x: datetime.strptime(x['timestamp'], "%Y-%m-%d %H:%M:%S.%f").timestamp(), reverse=True)
 
     # Render the index template with the sorted posts
     return render_template('display.html', posts=sorted_posts)
