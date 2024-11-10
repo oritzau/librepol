@@ -80,6 +80,7 @@ def createPost():
         image=file.filename,
         content=content,
         link=link,
+        timestamp="",
     )
     db.insert(post)
 
