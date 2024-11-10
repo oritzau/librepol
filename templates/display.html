@@ -17,7 +17,7 @@
             padding: 16px;
             transition: 0.3s;
             margin: 16px;
-            max-width: 1000px;
+            /* max-width: 1300px; */
             min-width: 500px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
@@ -99,7 +99,7 @@
         </form>
     </div>
    
-    <h1>Propositions</h1>
+    <h1>Untitled</h1>
     
     <!-- <form method="GET" action="{{ url_for('search') }}" class="form-inline justify-content-center mb-4">
         <input type="text" name="query" placeholder="Search..." class="form-control mr-2">
@@ -113,9 +113,9 @@
         {% for entry in posts %}
         <div class="card">
             <div class="card-content">
-                <p><small>ID number: {{ entry.id }}</small></p>
+                <p><small>Post ID {{ entry.id }}</small></p>
                 <h2>{{ entry.title }}</h2>
-                <p><strong>Content:</strong> {{ entry.content }}</p>
+                <p> {{ entry.content }}</p>
                 
                 {% if entry.link != "" %}        
                     <p>To learn more, visit:<a href="{{ entry.link }}" target="_blank"> {{ entry.link }}</a></p>

@@ -68,12 +68,21 @@ def createPost():
     print(request)
     if "image" not in request.files:
         return jsonify({"status": "400", "message": "No image part"}), 400
+    
 
     file = request.files["image"]
     if file.filename == "":
-        return jsonify({"status": "400", "message": "No selected file"}), 400
+        # return jsonify({"status": "400", "message": "No selected file"}), 400
+        post = Post(
+        id=Post.createPostId(), 
+        title=title,
+        image='',
+        content=content,
+        link=link,
+        timestamp="",
+        )
 
-    if file and allowedFile(file.filename):
+    elif file and allowedFile(file.filename):
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(filepath)
 
